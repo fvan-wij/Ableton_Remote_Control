@@ -1,0 +1,25 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Control Ableton Live</title>
+	<script>
+        function startRecording() {
+            var form = document.getElementById('recordingForm');
+            form.submit();
+            var button = document.getElementById('startRecordingButton');
+            button.disabled = true;
+            setTimeout(function() {
+                form.reset();
+                button.disabled = false;
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <h1>Control Ableton Live</h1>
+    <form id="recordingForm" action="/start_recording" method="POST">
+        <button style="padding: 100px; background-color: rgb(241, 0, 0); color: #FFFFFFFF" id="startRecordingButton" type="button" onclick="startRecording()">Start Recording</button>
+    </form>
+</body>
+</html>
