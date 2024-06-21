@@ -1,7 +1,7 @@
 # Ableton_Remote_Control
 Basic interface to control Ableton with my phone. Useful when recording drums, synths, etc.
 
-### Dependancies
+### Dependencies
 - Flask (Python) 
 - Scamp (Python)
 - loopMIDI (https://www.tobias-erichsen.de/software/loopmidi.html)
@@ -23,6 +23,6 @@ Basic interface to control Ableton with my phone. Useful when recording drums, s
 
 
 ### To dos
-- [] Automate the configuration steps
-- [] Add toggle for metronome
-- [] Integrate phone-camera recording
+- [ ] Automate the configuration steps
+- [ ] Add toggle for metronome
+- [ ] Integrate phone-camera recording
