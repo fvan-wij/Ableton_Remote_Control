@@ -11,11 +11,11 @@ Basic interface to control Ableton with my phone. Useful when recording drums, s
 0. Git clone this repository
 1. Configure virtual MIDI channel 
 	- Install loopMIDI
-	- Add a new loopback MIDI-port using loopMIDI
+	- Add a new loopback MIDI-port with the name 'Remote Control' in loopMIDI
 2. Configure Ableton
-	- Add a new midi channel
-	- Set input type to the newly created loopback MIDI-port (loopMIDI)
-	- Enable track & remote control for both input and output of the virtual MIDI-port: Ableton->Preferences->Link/MIDI
+	- Add a new midi channel in Ableton
+	- Set input type to 'Remote Control'
+	- Go to Ableton->Preferences->Link/MIDI and enable track & remote control for both input and output of 'Remote Control'
 3. Set up the webserver and midi-map incoming midi signal to Ableton record
 	- run 'python Backend.py'
 	- Go to Ableton, right-click edit MIDI-map on record button
