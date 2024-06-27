@@ -1,4 +1,4 @@
-# Ableton_Remote_Control
+# Ableton_remote_control
 Basic web-interface to control Ableton and my phone simultaneously. Useful when recording drums, synths, etc.
 
 ### Dependencies
