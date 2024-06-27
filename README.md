@@ -25,4 +25,4 @@ Basic interface to control Ableton with my phone. Useful when recording drums, s
 ### To dos
 - [ ] Automate the configuration steps
 - [ ] Add toggle for metronome
-- [ ] Integrate phone-camera recording
+- [x] Integrate phone-camera recording
