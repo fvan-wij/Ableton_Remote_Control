@@ -1,25 +1,146 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Control Ableton Live</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Recording</title>
+    <style>
+		body {
+			background-color: rgb(26, 26, 26);
+			display: flex;
+			flex-direction: column;
+			flex-grow: 2;
+			margin: 0;
+		}
+		h2 {
+			color: white;
+			text-align: center;
+			position: relative;
+			margin: 0;
+			padding-top: 1em;
+			padding-bottom: 1em;
+		}
+		#rec-interface {
+			/* text-align: center; */
+			justify-content: center;
+		}
+		#recordingForm {
+			display: flex;
+			justify-content: space-around;
+		}
+        #log {
+            max-height: 200px;
+            overflow-y: scroll;
+            background: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+        }
+		#start-recording-btn{
+			background-color: red;
+			width:50%;
+			height: 3em;
+			color: aliceblue;
+		}
+		#start-recording-btn[disabled]{
+			background-color: grey;
+			color: aliceblue;
+			/* width:50%; */
+		}
+		#stop-recording-btn{
+			width:50%;
+			height: 3em;
+		}
+		#video {
+			/* background-color: grey; */
+			width: 100%;
+			height: 480px;
+			padding:0;
+		}
+    </style>
 	<script>
         function startRecording() {
             var form = document.getElementById('recordingForm');
             form.submit();
-            var button = document.getElementById('startRecordingButton');
+            var button = document.getElementById('start-recording-btn');
             button.disabled = true;
             setTimeout(function() {
                 form.reset();
                 button.disabled = false;
             }, 3000);
         }
-    </script>
+	</script>
 </head>
 <body>
-    <h1>Control Ableton Live</h1>
-    <form id="recordingForm" action="/start_recording" method="POST">
-        <button style="padding: 100px; background-color: rgb(241, 0, 0); color: #FFFFFFFF" id="startRecordingButton" type="button" onclick="startRecording()">Start Recording</button>
-    </form>
+	<div id="rec-interface">
+		<h2>Camera Recording</h2>
+		<video id="video" autoplay></video>
+		<form id="recordingForm" action="/start_recording" method="POST">
+			<button id="start-recording-btn" onclick="startRecording()" >REC</button>
+			<button id="stop-recording-btn" disabled onclick="startRecording()">STOP</button>
+		</form>
+	</div>
+    <div id="log"></div>
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML = `<p>${message}</p>`;
+            console.log(message);
+        }
+
+        document.getElementById('start-recording-btn').addEventListener('click', async function() {
+            const constraints = {
+                video: true,
+                audio: true
+            };
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = function(event) {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = function() {
+                    const blob = new Blob(recordedChunks, {
+                        type: 'video/mp4'
+                    });
+                    recordedChunks = [];
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'recorded_video.mp4';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                };
+                
+                mediaRecorder.start();
+                log('Recording...');
+
+                document.getElementById('start-recording-btn').disabled = true;
+                document.getElementById('stop-recording-btn').disabled = false;
+            } catch (err) {
+                log('Error accessing media devices: ' + err);
+            }
+        });
+
+        document.getElementById('stop-recording-btn').addEventListener('click', function() {
+            mediaRecorder.stop();
+            log('Recording stopped');
+            
+            document.getElementById('start-recording-btn').disabled = false;
+            document.getElementById('stop-recording-btn').disabled = true;
+        });
+        log("Press REC to begin");
+    </script>
 </body>
 </html>
