@@ -1,11 +1,10 @@
 # Ableton_Remote_Control
-Basic interface to control Ableton with my phone. Useful when recording drums, synths, etc.
+Basic web-interface to control Ableton and my phone simultaneously. Useful when recording drums, synths, etc.
 
 ### Dependencies
 - Flask (Python) 
 - Scamp (Python)
 - loopMIDI (https://www.tobias-erichsen.de/software/loopmidi.html)
-
 
 ### How to set it up
 0. Git clone this repository
@@ -17,9 +16,9 @@ Basic interface to control Ableton with my phone. Useful when recording drums, s
 	- Set input type to 'Remote Control'
 	- Go to Ableton->Preferences->Link/MIDI and enable track & remote control for both input and output of 'Remote Control'
 3. Set up the webserver and midi-map incoming midi signal to Ableton record
-	- run 'python Backend.py'
+	- run 'python ./app.py'
 	- Go to Ableton, right-click edit MIDI-map on record button
-	- Go to localhost:5000, and press the 'start recording' button. The rec button should now be midi-mapped to Ableton's recording button.
+	- Go to localhost:8000, and press the 'start recording' button. The rec button should now be midi-mapped to Ableton's recording button.
 
 
 ### To dos
